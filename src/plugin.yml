@@ -10,3 +10,6 @@ commands:
   go:
     description: Teleport to a named memorystone
     usage: /go <teleport place>
+  ow:
+    description: Generic named command entry point. yay.
+    usage: /ow <subcommands>
