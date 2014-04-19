@@ -1,0 +1,12 @@
+name: ourworld
+main: cljminecraft.ClojurePlugin
+version: 1.0.0
+website: http://github.com/cmdrdats/ourworld
+author: cmdrdats
+description: Some clj plugin stuff for our world.
+depend: [cljminecraft]
+#unneeded: class-loader-of: cljminecraft
+commands:
+  go:
+    description: Teleport to a named memorystone
+    usage: /go <teleport place>
