@@ -1,5 +1,5 @@
 name: ourworld
-main: cljminecraft.ClojurePlugin
+main: ourworld.OurWorldPlugin
 version: 1.0.0
 website: http://github.com/cmdrdats/ourworld
 author: cmdrdats
