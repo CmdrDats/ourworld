@@ -82,7 +82,7 @@
          )))))
 
 (defn block-break [ev]
-  (if (= (.. ev getBlock getType) (:log i/materials))
+  #_(if (= (.. ev getBlock getType) (:log i/materials))
     (let [checked #{(vect (.getBlock ev))}
           candidates (find-log-neighbours (.getBlock ev))
           breakable (filter (partial should-break? checked) candidates)]

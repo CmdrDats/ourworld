@@ -14,10 +14,11 @@
 
 ;;DONE: Teleport onto sign, instead of facing block
 ;;DONE: Face away from sign on teleport
+;;TODO: Only compass teleport on setting target to portal.
 ;;TODO: Slower teleporting with smoke effects
 ;;TODO: On switching to compass, describe currently selected destination
 ;;TODO: Link to closest possible candidate
-;;TODO: Blue [Portal] colour if in different world.
+;;TODO: Blue [Portal] colour if in setup cost
 ;;DONE: Remove memorizing stones
 ;;DONE: Linked memorystone system - First line name, second line linkname
 ;;DONE: Teleport only when pointing at another memory stone

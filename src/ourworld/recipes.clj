@@ -6,7 +6,7 @@
 
 (defn register-recipes []
   (r/register-recipes
-   (r/recipe material-map :string "W" 12)))
+   (r/recipe material-map :string "W" 4)))
 
 (defn start [plugin]
   (register-recipes))
