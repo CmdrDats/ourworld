@@ -18,7 +18,7 @@
    (r/recipe material-map :grass "sD" 1)
    (r/recipe material-map :mossy_cobblestone ["CsC" "sCs" "CsC"] 5)
    (r/recipe material-map :ice "bw" 3)
-   (r/recipe {\B :brown_mushroom \R :red_mushroom \D :dirt} :mycelium "BRDD" 2)
+   (r/recipe {\B :brown_mushroom \R :red_mushroom \D :dirt} :mycel "BRDD" 2)
    (r/recipe {\S :sandstone} :sand "S" 4)
    (r/recipe {\C :clay} :clay_ball "C" 4)
    (r/recipe {\S :sand \s :string} :sponge ["sSs" "SsS" "sSs"] 1)
