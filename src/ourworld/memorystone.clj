@@ -155,10 +155,10 @@
   [{:keys [world-uuid location linkworld-uuid linklocation name uuid linkname type cost] :as memstone}]
   (let [world (bk/world-by-uuid world-uuid)
         [x y z] location
-        block (.getBlockAt world x y z)
-        linkworld (if linkworld-uuid (bk/world-by-uuid linkworld-uuid))
+        block (if world (.getBlockAt world x y z))
+        linkworld (if (and world linkworld-uuid) (bk/world-by-uuid linkworld-uuid))
         [lx ly lz] linklocation
-        linkblock (if lx (.getBlockAt linkworld lx ly lz))]
+        linkblock (if (and world linkworld lx) (.getBlockAt linkworld lx ly lz))]
     [uuid {:block block :linkblock linkblock :name name
            :linkname linkname :uuid uuid :cost cost :type (keyword type)}]))
 
@@ -304,25 +304,24 @@
 
 
 
-
-
-
+(defn load-world [ev]
+  (log/info "Loading memory stones for world: %s" (.getName (.getWorld ev)))
+  (read-memstones))
 
 (defn events
   []
   [(ev/event "player.player-interact" #'player-interact)
    (ev/event "player.player-interact-entity" #'player-interact-entity)
    (ev/event "block.sign-change" #'sign-change)
-   (ev/event "block.block-break" #'sign-break)])
-
+   (ev/event "block.block-break" #'sign-break)
+   (ev/event "world.world-load" #'load-world)])
 
 ;; Plugin lifecycle
 (defn start
   [plugin-instance]
   (log/info "%s" "in start memorystone")
   (reset! plugin plugin-instance)
-  (ev/register-eventlist @plugin (events))
-  (read-memstones))
+  (ev/register-eventlist @plugin (events)))
 
 (defn stop
   [plugin]
