@@ -5,8 +5,12 @@ website: http://github.com/cmdrdats/ourworld
 author: cmdrdats
 description: Some clj plugin stuff for our world.
 depend: [cljminecraft]
+load: STARTUP
 #unneeded: class-loader-of: cljminecraft
 commands:
+  moon:
+    description: Sends you to the moon!
+    usage: /moon
   go:
     description: Teleport to a named memorystone
     usage: /go <teleport place>

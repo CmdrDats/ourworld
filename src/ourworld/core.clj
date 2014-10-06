@@ -29,6 +29,53 @@
 
 (defonce plugin (atom nil))
 
+(defonce moon-world (atom nil))
+
+(defonce gens (atom nil))
+
+(defn noisegen [world]
+  (->
+   (swap! gens
+          (fn [a] (update-in a [(.getUID world)] #(if % % (org.bukkit.util.noise.SimplexNoiseGenerator. world)))))
+   (get (.getUID world))))
+
+(defn calc-height [world x y variance]
+  (let [gen (noisegen world)]
+    (org.bukkit.util.noise.NoiseGenerator/floor (* variance (.noise gen x y)))))
+
+(defn construct-generator []
+  (proxy [org.bukkit.generator.ChunkGenerator] []
+    (generate [world random cx cz]
+      (let [material (.getId (:sponge i/materials))
+            result (byte-array 32768)]
+        (doseq [x (range 16) z (range 16)]
+          (let [height (+ 60 (calc-height world (+ cx (* x 0.0625)) (+ cz (* z 0.0625)) 2))]
+            (doseq [y (range height)]
+              (aset-byte result (+ y (* 128 (+ (* x 16) z)))  material))))
+        result))
+    (getDefaultPopulators [world]
+      '())
+    (getFixedSpawnLocation [world random]
+      (log/info "FixedSpawn")
+      (let [x (- (.nextInt random 200) 100)
+            z (- (.nextInt random 200) 100)
+            y (.getHighestBlockYAt world x z)]
+        (org.bukkit.Location. world x y z)))))
+
+(defn generator [plugin world id]
+  (construct-generator))
+
+(defn check-moon [m]
+  (if m m
+      (.createWorld (bk/server) "BukkitMoon" org.bukkit.World$Environment/NORMAL (construct-generator))))
+
+(defn moon []
+  (swap! moon-world check-moon))
+
+(defn send-to-moon
+  [sender]
+  (.teleport sender (.getSpawnLocation (moon))))
+
 (defn start
   [plugin-instance]
   (log/info "%s" "in start ourworld")
@@ -36,7 +83,8 @@
   (memstone/start plugin-instance)
   (recipes/start plugin-instance)
   (bonedrops/start plugin-instance)
-  (logger/start plugin-instance))
+  (logger/start plugin-instance)
+  (cmd/register-command plugin-instance "moon" #'send-to-moon))
 
 (defn stop
   [plugin]
